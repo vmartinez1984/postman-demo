@@ -1,0 +1,215 @@
+{
+	"info": {
+		"_postman_id": "df89ecef-b784-423d-8ecf-35936cd0cda7",
+		"name": "demo-collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create a new User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"    const jsonData = pm.response.json()",
+							"    pm.collectionVariables.set('postId', jsonData.data.id)",
+							"    ",
+							"    pm.test('Status code should be 201', function(){",
+							"        pm.response.to.have.status(201)",
+							"    })",
+							"",
+							"    pm.test('Response has an ID key', function(){",
+							"        pm.expect(jsonData.data).to.have.property('id')",
+							"    })",
+							"",
+							"    pm.test('Response should have the correct email', function(){",
+							"        pm.expect(jsonData.data.email).to.be.eq('joanmedia2@test.com')",
+							"    })"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"joanmedia\",\n    \"gender\": \"male\",\n    \"email\": \"joanmedia2@test.com\",\n    \"status\": \"active\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{protocol}}://{{url}}/{{visibility}}/{{version}}/users",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"{{visibility}}",
+						"{{version}}",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code should be 200', function(){",
+							"    pm.response.to.have.status(200)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{url}}/{{visibility}}/{{version}}/users/{{postId}}",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"{{visibility}}",
+						"{{version}}",
+						"users",
+						"{{postId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Updating a User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonData = pm.response.json()",
+							"",
+							"pm.test('Status code should be 200', function(){",
+							"    pm.response.to.have.status(200)",
+							"})",
+							"",
+							"  pm.test('Response should have be inactive', function(){",
+							"        pm.expect(jsonData.data.status).to.be.eq('inactive')",
+							"    })"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"joanmedia\",\n    \"gender\": \"male\",\n    \"email\": \"joanmedia2@test.com\",\n    \"status\": \"inactive\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{protocol}}://{{url}}/{{visibility}}/{{version}}/users/{{postId}}",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"{{visibility}}",
+						"{{version}}",
+						"users",
+						"{{postId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"  pm.test('Status code should be 204', function(){",
+							"        pm.response.to.have.status(204)",
+							"  })"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{url}}/{{visibility}}/{{version}}/users/{{postId}}",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"{{visibility}}",
+						"{{version}}",
+						"users",
+						"{{postId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "38746957f593342cdf90cd4c04b18e3595bbd36b49633b0b8dd793d41587f674",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "postId",
+			"value": ""
+		}
+	]
+}
